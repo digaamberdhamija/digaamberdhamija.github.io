@@ -1,0 +1,68 @@
+$light: rgb(248, 249, 250)
+$sky-blue: rgb(115, 197, 255)
+$dark: rgb(52, 58, 64)
+$white: rgb(255, 255, 255)
+$font: 'Rubik'
+$font1: 'Josefin Slab'
+$font2: 'Fredoka One'
+
+.chat-navbar
+  right: 0px
+  justify-content: space-around
+
+.navbar-dark
+  .chat-navbar-heading
+    font-size: 2.5rem
+    font-family: $font2
+    color: $sky-blue
+    margin-right: 0
+    padding-bottom: 0
+
+  .chat-navbar-heading:hover
+    color: $sky-blue
+
+  .chat-navbar-heading:focus
+    color: $sky-blue
+
+.navbar
+  .chat-navbar-container
+    justify-content: center
+
+  .chat-navbar-container-fluid
+    display: flex
+    flex-flow: column nowrap
+    max-height: 190px
+    overflow-y: auto
+    justify-content: flex-start
+    align-items: center
+    width: 100%
+    font-family: $font1
+
+  .chat-navbar-text
+    color: $light
+    font-family: $font1
+    font-weight: bold
+    font-size: 1.6rem
+    margin-bottom: 6px
+    margin-top: 16px
+
+  .chat-navbar-message
+    color: $light
+    font-family: $font
+    text-align: center
+
+.chat-navbar-item
+  width: 100%
+
+.chat-navbar-btn
+  border-color: transparent
+  font-family: $font
+  border-radius: 0
+
+.chat-navbar-btn:hover
+  border-color: transparent
+  background-color: $sky-blue
+  color: $white
+
+.chat-navbar-btn:focus
+  box-shadow: 0 0 0 0 transparent

@@ -1,0 +1,138 @@
+$light: rgb(248, 249, 250)
+$sky-blue: rgb(115, 197, 255)
+$dark: rgb(52, 58, 64)
+$white: rgb(255, 255, 255)
+$font: 'Rubik'
+$font1: 'Josefin Slab'
+
+.main-col
+  // 5% height by default
+  // Otherwise 65%
+  .chat-container
+    display: flex
+    flex-flow: column wrap
+    align-items: stretch
+    justify-content: stretch
+    padding-right: 0
+    padding-left: 0
+    margin: auto
+    width: 54%
+    height: 5%
+    position: fixed
+    bottom: 0
+    left: 0
+    right: 0
+
+.chat-btn
+  background-color: $dark
+  border-color: transparent
+  font-family: $font1
+  font-size: 1.15rem
+  border-radius: 0
+
+.chat-btn:hover
+  border-color: transparent
+  background-color: $sky-blue
+  color: $white
+
+.chat-btn:focus, .chat-btn.focus
+  box-shadow: 0 0 0 0.2rem $sky-blue
+
+.chat-btn-new-message
+  background-color: $sky-blue
+
+button.chat-btn-close
+  opacity: 1
+  text-shadow: 0 0 0 $dark
+  border-color: $dark
+  background-color: $dark
+  color: $light
+  padding-right: 5px
+  padding-left: 5px
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+
+button.chat-btn-close:hover
+  background-color: $sky-blue
+  color: $white
+
+.close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover
+    opacity: 1
+
+.chat-card
+  border-radius: 0
+  left: 0
+  right: 0
+  bottom: 12%
+  min-height: 91.55%
+  max-height: 91.55%
+  overflow-y: auto
+  font-family: $font
+  display: none
+
+.chat-card-header
+  position: fixed
+  width: 100%
+  background-color: $dark
+  font-family: $font1
+  font-size: 1.4rem
+  font-weight: bold
+
+.chat-card-footer
+  position: fixed
+  width: 54%
+  bottom: 3%
+  background-color: $dark
+  padding-left: 10px
+  padding-right: 10px
+  display: none
+
+.send-btn
+  border-radius: 0
+  font-family: $font1
+
+.send-btn:hover
+  background-color: $sky-blue
+  border-color: $sky-blue
+  color: $white
+
+.send-btn:focus, .send-btn.focus
+  box-shadow: 0 0 0 0.2rem $sky-blue
+
+.chat-message
+  min-width: 65%
+
+.received-message-header
+  background-color: $sky-blue
+  color: $white
+  height: 25.5px
+
+.received-message-body
+  background-color: $dark
+  color: $light
+  padding-top: 7.5px
+  padding-bottom: 7.5px
+
+.sent-message
+  right: -35%
+  position: relative
+
+.sent-message-header
+  background-color: $dark
+  color: $light
+  height: 25.5px
+
+.sent-message-body
+  background-color: $sky-blue
+  color: $white
+  padding-top: 7.5px
+  padding-bottom: 7.5px
+
+.notification-toast
+  min-width: 100%
+  border-radius: 0
+
+.notification-toast-body
+  font-family: $font
+  color: $sky-blue
+  background-color: $dark
+  padding-left: 0.9rem

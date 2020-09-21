@@ -1,0 +1,6 @@
+python3 -m pip install channels_redis
+python -m pip install -U channels
+
+For proper installation, follow:
+https://channels.readthedocs.io/en/latest/installation.html
+https://channels.readthedocs.io/en/latest/topics/channel_layers.html

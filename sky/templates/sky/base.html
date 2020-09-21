@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+  <head data-csrf_token='{% csrf_token %}'>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Style Sheets -->
+    <link href="{% static 'sky/fonts.css' %}" rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'sky/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'sky/bootstrap-override.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sky/dashboard-navbar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sky/chat-navbar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sky/chat.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sky/main-content.min.css' %}">
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static 'sky/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'sky/popper.min.js' %}"></script>
+    <script src="{% static 'sky/bootstrap.min.js' %}"></script>
+
+    <!-- Required JavaScript Libraries -->
+    <script src="{% static 'sky/d3.min.js' %}"></script>
+    <script src="{% static 'sky/handlebars.js' %}"></script>
+    <script src="{% static 'sky/cookies.min.js' %}"></script>
+
+    <!-- JavaScript -->
+    <script type="module" src="{% static 'sky/chat.js' %}"></script>
+    <script type="module" src="{% static 'sky/feed.js' %}"></script>
+    <script type="module" src="{% static 'sky/routing.js' %}"></script>
+
+    <!-- Title -->
+    <title>Sky</title>
+  </head>
+
+  <body data-id="{{ request.user.id }}" data-username="{{ request.user.username }}">
+    <div class="container-fluid main-container-fluid">
+
+      <div class="row">
+
+        <!-- Dashboard Navbar -->
+        <div class="col-md-3 main-col">
+
+          <nav class="navbar navbar-dark bg-dark dashboard-navbar">
+            <div class="dashboard-navbar-title">
+              <div class="navbar-brand sky-logo">Sky</div>
+              <div class="dashboard-navbar-text">currently logged in as: {{ request.user.username }}</div>
+            </div>
+
+            <div class="container-fluid dashboard-container">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <button id="dashboard-feed-button" class="btn btn-block btn-outline-light dashboard-btn">feed</button>
+                </li>
+                <li class="nav-item">
+                  <button id="dashboard-projects-button" class="btn btn-block btn-outline-light dashboard-btn">projects</button>
+                </li>
+                <li class="nav-item dropdown">
+                  <button id="dashboard-teams-button" class="btn btn-block btn-outline-light dashboard-btn">teams</button>
+                </li>
+                <li class="nav-item">
+                  <button id="dashboard-notes-button" class="btn btn-block btn-outline-light dashboard-btn">notes</button>
+                </li>
+                <li class="nav-item">
+                  <button id="dashboard-account-button" class="btn btn-block btn-outline-light dashboard-btn">profile</button>
+                </li>
+              </ul>
+            </div>
+
+            <a class="btn btn-block btn-outline-light dashboard-btn" href="{% url 'logout' %}">logout</a>
+
+          </nav>
+
+        </div>
+        <!-- Dashboard Navbar End -->
+
+        <!-- Main Content -->
+        <div class="col-md-6 main-col">
+          <br>
+          <div id="notifications" style="position: relative">
+          </div>
+          <br>
+          <div id="main-content-container">
+
+            <div class="jumbotron main-content-title-jumbotron">
+              <div class="main-content-title">feed</div>
+              <div class="main-content-title-text">latest ongoings in the company</div>
+            </div>
+
+            <form id="new-post-form">
+              <div class="form-group">
+                <input id="new-post-title" type="text" class="form-control" placeholder="add a title" required>
+                <textarea id="new-post-text" class="form-control" placeholder="share something with your coworkers" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-outline-dark btn-sm btn-block main-content-btn">upload</button>
+            </form>
+            <br>
+
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" id="search-posts" placeholder="search posts">
+              </div>
+            </form>
+
+            <div id="posts">
+              {% for post in posts %}
+                <div id="post" class="jumbotron main-content-post-jumbotron" data-id="{{ post.id }}">
+                  <p class="main-content-post-title-text">
+                    {{ post.title }}
+                    {% if post.delete %}
+                      <button id="delete-post-button" type="button" class="btn btn-outline-dark btn-sm post-delete-btn" data-id="{{ post.id }}">delete</button>
+                    {% endif %}
+                  </p>
+                  {% for text in post.text %}
+                    <p class="main-content-post-text">{{ text }}</p>
+                  {% endfor %}
+                  <p class=" main-content-post-information-text">
+                    posted by
+                    {% if post.delete %}
+                      you
+                    {% else %}
+                      {{ post.uploader }}
+                    {% endif %}
+                    on {{ post.datetime }}
+                  </p>
+                </div>
+              {% empty %}
+                <p class="main-content-text">no posts to show</p>
+              {% endfor %}
+            </div>
+            <br>
+
+          </div>
+
+          <!-- Downward Chat Bar -->
+          <div class="chat-container">
+            <div class="card text-white bg-dark chat-card">
+              <div class="card-header chat-card-header"></div>
+              <div id="messages" class="card-body"></div>
+            </div>
+
+            <div class="card-footer chat-card-footer">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Send a message">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-light chat-btn">Send</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="chat-buttons" class="btn-group" role="group"></div>
+          </div>
+          <!-- Downward Chat Bar End-->
+
+        </div>
+        <!-- Main Content End -->
+
+        <!-- Chat Navbar -->
+        <div class="col-md-3 main-col">
+
+          <nav class="navbar navbar-dark bg-dark chat-navbar">
+            <div class="navbar-brand chat-navbar-heading" href="#">Chats</div>
+
+            <!-- Search -->
+            <div class="container chat-navbar-container">
+              <p class="chat-navbar-text">search</p>
+              <input id="search-bar" class="form-control mr-sm-2" type="search" placeholder="Search for your teams or coworkers">
+            </div>
+            <!-- Search End -->
+
+            <!-- Teams -->
+            <div class="container chat-navbar-container">
+              <p class="chat-navbar-text">my teams</p>
+              <ul class="navbar-nav">
+                <div id="teams-display" class="conatiner-fluid chat-navbar-container-fluid">
+                  {% for team in teams %}
+                    <li class="nav-item chat-navbar-item">
+                      <button id="open_chat" class="btn btn-block btn-outline-light chat-navbar-btn" data-message_type="team" data-id="{{ team.id }}" data-name="{{ team.name }}">
+                        {{ team.name }}
+                      </button>
+                    </li>
+                  {% empty %}
+                    <p class="chat-navbar-message">you are not a part of any team.</p>
+                  {% endfor %}
+                </div>
+
+              </ul>
+            </div>
+            <!-- Teams End -->
+
+            <!-- Coworkers -->
+            <div class="container chat-navbar-container">
+              <p class="chat-navbar-text">coworkers</p>
+              <ul class="navbar-nav">
+
+                <div id="coworkers-display" class="conatiner-fluid chat-navbar-container-fluid">
+                  {% for employee in employees %}
+                    <li class="nav-item chat-navbar-item">
+                      <button id="open_chat" class="btn btn-block btn-outline-light chat-navbar-btn" data-message_type="private" data-id="{{ employee.id }}" data-name="{{ employee.username }}">
+                        {{ employee.username }}
+                      </button>
+                    </li>
+                  {% empty %}
+                    <p class="chat-navbar-message">you do not have any coworkers.</p>
+                  {% endfor %}
+                </div>
+
+              </ul>
+            </div>
+            <!-- Coworkers End -->
+
+          </nav>
+
+        </div>
+        <!-- Chat Nabar End -->
+
+      </div>
+
+    </div>
+
+  </body>
+</html>
