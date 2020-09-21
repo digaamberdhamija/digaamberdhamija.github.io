@@ -38,3 +38,4 @@ Name: Digaamber Dhamija
 edX username: Digaamber
 GitHub username: digaamberdhamija
 Country: India
+University: Thapar University
